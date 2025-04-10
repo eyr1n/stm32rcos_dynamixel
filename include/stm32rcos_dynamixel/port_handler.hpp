@@ -2,8 +2,6 @@
 
 #include <stm32rcos/core.hpp>
 
-#include <stm32rcos/peripheral/uart.hpp>
-
 #include "port_handler.h"
 
 namespace stm32rcos_dynamixel {
