@@ -8,11 +8,9 @@
 
 namespace stm32rcos_dynamixel {
 
-class PortHandler : public dynamixel::PortHandler {
+template <class UART_> class PortHandler : public dynamixel::PortHandler {
 public:
-  PortHandler(stm32rcos::peripheral::UART &uart) : uart_{uart} {
-    is_using_ = false;
-  }
+  PortHandler(UART_ &uart) : uart_{uart} { is_using_ = false; }
 
   virtual ~PortHandler() { closePort(); }
 
@@ -77,7 +75,7 @@ public:
 private:
   static constexpr int LATENCY_TIMER = 4;
 
-  stm32rcos::peripheral::UART &uart_;
+  UART_ &uart_;
   int baudrate_ = 0;
   double packet_timeout_ = 0.0;
   double tx_time_per_byte = 0.0;
