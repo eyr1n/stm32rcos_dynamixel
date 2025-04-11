@@ -12,36 +12,36 @@ template <class UART_> class PortHandler : public dynamixel::PortHandler {
 public:
   PortHandler(UART_ &uart) : uart_{uart} { is_using_ = false; }
 
-  virtual ~PortHandler() { closePort(); }
+  ~PortHandler() override { closePort(); }
 
-  bool openPort() {
+  bool openPort() override {
     return false; // not implemented
   }
 
-  void closePort() {
+  void closePort() override {
     // not implemented
   }
 
-  void clearPort() { uart_.flush(); }
+  void clearPort() override { uart_.flush(); }
 
-  void setPortName(const char *) {
+  void setPortName(const char *) override {
     // not implemented
   }
 
-  char *getPortName() {
+  char *getPortName() override {
     return nullptr; // not implemented
   }
 
-  bool setBaudRate(const int baudrate) {
+  bool setBaudRate(const int baudrate) override {
     baud_rate_ = baudrate;
     return true;
   }
 
-  int getBaudRate() { return baud_rate_; }
+  int getBaudRate() override { return baud_rate_; }
 
-  int getBytesAvailable() { return uart_.available(); }
+  int getBytesAvailable() override { return uart_.available(); }
 
-  int readPort(uint8_t *packet, int length) {
+  int readPort(uint8_t *packet, int length) override {
     if (!uart_.receive(packet, length, timeout_)) {
       is_timeout_ = true;
       return 0;
@@ -49,20 +49,20 @@ public:
     return length;
   }
 
-  int writePort(uint8_t *packet, int length) {
+  int writePort(uint8_t *packet, int length) override {
     if (!uart_.transmit(packet, length, osWaitForever)) {
       return 0;
     }
     return length;
   }
 
-  void setPacketTimeout(uint16_t packet_length) {
+  void setPacketTimeout(uint16_t packet_length) override {
     timeout_ = 1000.0f / baud_rate_ * packet_length * 10 + 10;
   }
 
-  void setPacketTimeout(double msec) { timeout_ = msec; }
+  void setPacketTimeout(double msec) override { timeout_ = msec; }
 
-  bool isPacketTimeout() {
+  bool isPacketTimeout() override {
     if (is_timeout_) {
       is_timeout_ = false;
       return true;
