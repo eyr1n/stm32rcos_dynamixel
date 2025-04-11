@@ -3,14 +3,17 @@
 #include <cstdint>
 
 #include <stm32rcos/core.hpp>
+#include <stm32rcos/peripheral/uart.hpp>
 
 #include "port_handler.h"
 
 namespace stm32rcos_dynamixel {
 
-template <class UART_> class PortHandler : public dynamixel::PortHandler {
+class PortHandler : public dynamixel::PortHandler {
 public:
-  PortHandler(UART_ &uart) : uart_{uart} { is_using_ = false; }
+  PortHandler(stm32rcos::peripheral::UARTBase &uart) : uart_{uart} {
+    is_using_ = false;
+  }
 
   ~PortHandler() override { closePort(); }
 
@@ -71,7 +74,7 @@ public:
   }
 
 private:
-  UART_ &uart_;
+  stm32rcos::peripheral::UARTBase &uart_;
   uint32_t baud_rate_ = 0;
   uint32_t timeout_ = 0;
   bool is_timeout_ = false;
