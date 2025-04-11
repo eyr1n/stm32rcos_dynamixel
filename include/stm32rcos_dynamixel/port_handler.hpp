@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include <stm32rcos/core.hpp>
 
 #include "port_handler.h"
@@ -31,17 +33,16 @@ public:
   }
 
   bool setBaudRate(const int baudrate) {
-    baudrate_ = baudrate;
-    tx_time_per_byte = (1000.0 / (double)baudrate) * 10.0;
+    baud_rate_ = baudrate;
     return true;
   }
 
-  int getBaudRate() { return baudrate_; }
+  int getBaudRate() { return baud_rate_; }
 
   int getBytesAvailable() { return uart_.available(); }
 
   int readPort(uint8_t *packet, int length) {
-    if (!uart_.receive(packet, length, packet_timeout_)) {
+    if (!uart_.receive(packet, length, timeout_)) {
       is_timeout_ = true;
       return 0;
     }
@@ -56,11 +57,10 @@ public:
   }
 
   void setPacketTimeout(uint16_t packet_length) {
-    packet_timeout_ = (tx_time_per_byte * (double)packet_length) +
-                      (LATENCY_TIMER * 2.0) + 2.0;
+    timeout_ = 1000.0f / baud_rate_ * packet_length * 10 + 10;
   }
 
-  void setPacketTimeout(double msec) { packet_timeout_ = msec; }
+  void setPacketTimeout(double msec) { timeout_ = msec; }
 
   bool isPacketTimeout() {
     if (is_timeout_) {
@@ -71,12 +71,9 @@ public:
   }
 
 private:
-  static constexpr int LATENCY_TIMER = 4;
-
   UART_ &uart_;
-  int baudrate_ = 0;
-  double packet_timeout_ = 0.0;
-  double tx_time_per_byte = 0.0;
+  uint32_t baud_rate_ = 0;
+  uint32_t timeout_ = 0;
   bool is_timeout_ = false;
 };
 
