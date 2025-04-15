@@ -37,7 +37,7 @@ target_link_libraries(${PROJECT_NAME}
 
 // Dynamixelを制御するルーチンにてPortHandlerを初期化
 
-stm32rcos::peripheral::UART_IT uart1(&huart1);
+stm32rcos::peripheral::UART_IT uart1(&huart1);  // 使用するペリフェラルに応じて変更する
 stm32rcos_dynamixel::PortHandler stm32rcos_dynamixel_port_handler(uart1);
 dynamixel::PortHandler *portHandler = &stm32rcos_dynamixel_port_handler;
 
