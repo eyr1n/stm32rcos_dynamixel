@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #include <stm32rcos/core.hpp>
-#include <stm32rcos/peripheral/uart.hpp>
+#include <stm32rcos/peripheral.hpp>
 
 #include "port_handler.h"
 
