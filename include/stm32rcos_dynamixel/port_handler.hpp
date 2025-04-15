@@ -11,7 +11,7 @@ namespace stm32rcos_dynamixel {
 
 class PortHandler : public dynamixel::PortHandler {
 public:
-  PortHandler(stm32rcos::peripheral::UARTBase &uart) : uart_{uart} {
+  PortHandler(stm32rcos::peripheral::UartBase &uart) : uart_{uart} {
     is_using_ = false;
   }
 
@@ -74,7 +74,7 @@ public:
   }
 
 private:
-  stm32rcos::peripheral::UARTBase &uart_;
+  stm32rcos::peripheral::UartBase &uart_;
   uint32_t baud_rate_ = 0;
   uint32_t timeout_ = 0;
   bool is_timeout_ = false;
