@@ -19,9 +19,8 @@ FetchContent_Declare(stm32rcos_dynamixel
 FetchContent_MakeAvailable(stm32rcos stm32rcos_dynamixel)
 
 target_link_libraries(${PROJECT_NAME}
-    stm32rcos
-    stm32rcos::f446xx  # MCUの型番に応じて変更する
-    stm32rcos_dynamixel
+  stm32rcos
+  stm32rcos_dynamixel
 )
 ```
 
