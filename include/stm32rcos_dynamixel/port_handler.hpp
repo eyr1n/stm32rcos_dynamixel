@@ -18,7 +18,7 @@ public:
   ~PortHandler() override { closePort(); }
 
   bool openPort() override {
-    return false; // not implemented
+    return true; // not implemented
   }
 
   void closePort() override {
