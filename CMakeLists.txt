@@ -9,7 +9,8 @@ FetchContent_Declare(dynamixel_sdk
 )
 FetchContent_MakeAvailable(dynamixel_sdk)
 
-add_library(${PROJECT_NAME} OBJECT
+add_library(${PROJECT_NAME} INTERFACE)
+target_sources(${PROJECT_NAME} INTERFACE
   ${dynamixel_sdk_SOURCE_DIR}/c++/src/dynamixel_sdk/group_bulk_read.cpp
   ${dynamixel_sdk_SOURCE_DIR}/c++/src/dynamixel_sdk/group_bulk_write.cpp
   ${dynamixel_sdk_SOURCE_DIR}/c++/src/dynamixel_sdk/group_sync_read.cpp
@@ -22,13 +23,13 @@ add_library(${PROJECT_NAME} OBJECT
   ${dynamixel_sdk_SOURCE_DIR}/c++/src/dynamixel_sdk/protocol2_packet_handler.cpp
   src/port_handler.cpp
 )
-target_link_libraries(${PROJECT_NAME} PUBLIC
+target_link_libraries(${PROJECT_NAME} INTERFACE
   stm32rcos
 )
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} INTERFACE
   ${dynamixel_sdk_SOURCE_DIR}/c++/include/dynamixel_sdk
   include
 )
-target_compile_definitions(${PROJECT_NAME} PUBLIC
+target_compile_definitions(${PROJECT_NAME} INTERFACE
   ARDUINO
 )
